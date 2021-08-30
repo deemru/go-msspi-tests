@@ -13,8 +13,6 @@ jobs:
         include:
         - os: ubuntu-latest
           platform: linux
-        - os: macos-latest
-          platform: darwin
         - os: windows-latest
           platform: win32
 
@@ -36,9 +34,10 @@ jobs:
         make -B static
         if [ "$RUNNER_OS" != "Windows" ]; then
           make -B static-capix
-          cp -rf $RUNNER_TEMP/go/* $GOROOT/
+          cp -rf "$RUNNER_TEMP/go/*" "$GOROOT/"
         else
-          xcopy $RUNNER_TEMP\go $GOROOT /s /e /r /y /q
+          echo xcopy "$RUNNER_TEMP\go" "$GOROOT" /s /e /r /y /q
+          xcopy "$RUNNER_TEMP\go" "$GOROOT" /s /e /r /y /q
         fi
 
     - name: TestMsspiClient
