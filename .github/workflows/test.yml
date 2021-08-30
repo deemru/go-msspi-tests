@@ -31,12 +31,14 @@ jobs:
         cd $RUNNER_TEMP
         git clone --depth 1 --branch go.1.16-msspi https://github.com/CryptoPro/go.git
         cd go
-        git submodule init
-        git submodule update --depth 1
+        git submodule update --init --recursive --depth 1
+        cd src/go-msspi/msspi/build_linux
+        make -B static
 
     - name: TestMsspiClient
       shell: bash
       run: |
         export GOROOT=$RUNNER_TEMP/go
         go env
+        ls -als $RUNNER_TEMP/go/src/go-msspi/msspi/build_linux
         go test -run MsspiClient
