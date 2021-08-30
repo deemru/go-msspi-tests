@@ -34,6 +34,9 @@ jobs:
         git submodule update --init --recursive --depth 1
         cd src/go-msspi/msspi/build_linux
         make -B static
+        if [ "$RUNNER_OS" != "Windows" ]; then
+          make -B static-capix
+        fi
         cp -rf $RUNNER_TEMP/go/* $GOROOT/
 
     - name: TestMsspiClient
