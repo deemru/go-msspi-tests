@@ -34,10 +34,9 @@ jobs:
         make -B static
         if [ "$RUNNER_OS" != "Windows" ]; then
           make -B static-capix
-          cp -rf "$RUNNER_TEMP/go/*" "$GOROOT/"
+          cp -rf "$RUNNER_TEMP/go" "$GOROOT/../"
         else
-          echo xcopy "$RUNNER_TEMP\go" "$GOROOT" /s /e /r /y /q
-          xcopy "$RUNNER_TEMP\go" "$GOROOT" /s /e /r /y /q
+          cp -rf "$RUNNER_TEMP\go" "$GOROOT\..\"
         fi
 
     - name: TestMsspiClient
