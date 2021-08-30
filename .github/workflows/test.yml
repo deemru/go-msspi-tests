@@ -1,0 +1,27 @@
+name: test
+on: [push]
+
+env:
+  golang-version: '1.16'
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-latest
+          platform: linux
+        - os: macos-latest
+          platform: darwin
+        - os: windows-latest
+          platform: win32
+
+    name: TestMsspiClient
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-go@v2
+      with:
+        go-version: ${{ env.golang-version }}
+    - run: go test -run MsspiClient
