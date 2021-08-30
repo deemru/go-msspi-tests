@@ -34,11 +34,9 @@ jobs:
         git submodule update --init --recursive --depth 1
         cd src/go-msspi/msspi/build_linux
         make -B static
+        cp -rf $RUNNER_TEMP/go/* $GOROOT/
 
     - name: TestMsspiClient
       shell: bash
       run: |
-        export GOROOT=$RUNNER_TEMP/go
-        go env
-        ls -als $RUNNER_TEMP/go/src/go-msspi/msspi/build_linux
         go test -run MsspiClient
