@@ -2,7 +2,7 @@ name: test
 on: [push]
 
 env:
-  golang-version: '1.16'
+  golang-version: '1.16.5'
 
 jobs:
   test:
@@ -21,7 +21,26 @@ jobs:
     name: TestMsspiClient
     steps:
     - uses: actions/checkout@v2
-    - uses: CryptoPro/setup-go@v2
+    - uses: actions/setup-go@v2
       with:
         go-version: ${{ env.golang-version }}
-    - run: go test -run MsspiClient
+
+    - name: Setup CryptoPro/go
+      shell: bash
+      run: |
+        pwd
+        cd $RUNNER_TEMP
+        git clone --depth 1 --branch go.1.16-msspi https://github.com/CryptoPro/go.git
+        cd go
+        git submodule init
+        git submodule update --depth 1
+        export GOROOT=$RUNNER_TEMP/go
+        go env
+
+    - name: TestMsspiClient
+      shell: bash
+      run: |
+        pwd
+        cd $GITHUB_WORKSPACE
+        go env
+        go test -run MsspiClient
