@@ -54,7 +54,7 @@ jobs:
         CPRO_CREDENTIALS: ${{ secrets.CPRO_CREDENTIALS }}
       run: |
         curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/CSPSetup.exe --output CSPSetup.exe
-        CSPSetup.exe -lang eng -kc kc1 -silent -noreboot
+        ./CSPSetup.exe -lang eng -kc kc1 -silent -noreboot
 
     - name: TestMsspiClient
       run: |
