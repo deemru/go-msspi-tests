@@ -52,6 +52,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       env:
         CPRO_CREDENTIALS: ${{ secrets.CPRO_CREDENTIALS }}
+      shell: bash
       run: |
         curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/csp-x64-eng.msi --output csp-x64-eng.msi
         msiexec /qn /i "csp-x64-eng.msi" REBOOT=R INSTALLCPCERT=1 REGREGISTRY=1 INTERACTIVESERVICES=1 REGBIO=1 FOREIGN=1 KCLEVEL=1 REPROV=1 CERTSTOREPARAMSSUPPORTED=1 REGALL=1 FULLCNGREGISTER=1 DRIVER=1
