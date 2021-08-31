@@ -12,7 +12,7 @@ jobs:
       matrix:
         include:
         - os: windows-latest
-          platform: win32
+          platform: win64
         - os: ubuntu-latest
           platform: linux
 
