@@ -13,6 +13,8 @@ jobs:
         include:
         - os: windows-latest
           platform: win32
+        - os: ubuntu-latest
+          platform: linux
 
     name: TestMsspiClient
     steps:
@@ -32,9 +34,24 @@ jobs:
         make -B static
         if [ "$RUNNER_OS" != "Windows" ]; then
           make -B static-capix
-          cp -rf $RUNNER_TEMP/go/src $GOROOT
+        fi
+        cp -rf $RUNNER_TEMP/go/src $GOROOT
+
+    - name: Install CryptoPro CSP
+      env:
+        CPRO_CREDENTIALS: ${{ secrets.CPRO_CREDENTIALS }}
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/CSPSetup.exe --output CSPSetup.exe
+          CSPSetup.exe -lang eng -kc kc1 -silent -noreboot
+        elif [ "$RUNNER_OS" == "Linux" ]; then
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/linux-amd64_deb.tgz --output linux-amd64_deb.tgz
+          tar -xvf linux-amd64_deb.tgz
+          cd linux-amd64_deb
+          sudo ./install.sh kc1
         else
-          cp -rf $RUNNER_TEMP/go/src $GOROOT
+          exit 1
         fi
 
     - name: TestMsspiClient
