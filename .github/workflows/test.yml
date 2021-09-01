@@ -13,6 +13,8 @@ jobs:
         include:
         - os: windows-latest
           platform: win64
+        - os: ubuntu-latest
+          platform: linux
 
     name: TestMsspiClient
     steps:
@@ -35,26 +37,22 @@ jobs:
         fi
         cp -rf $RUNNER_TEMP/go/src $GOROOT
 
-    - name: Install CryptoPro CSP (Linux)
-      if: matrix.os == 'ubuntu-latest'
+    - name: Install CryptoPro CSP
       env:
         CPRO_CREDENTIALS: ${{ secrets.CPRO_CREDENTIALS }}
       shell: bash
       run: |
-        curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/linux-amd64_deb.tgz --output linux-amd64_deb.tgz
-        tar -xvf linux-amd64_deb.tgz
-        cd linux-amd64_deb
-        sudo ./install.sh kc1
-
-    - name: Install CryptoPro CSP (Windows)
-      if: matrix.os == 'windows-latest'
-      env:
-        CPRO_CREDENTIALS: ${{ secrets.CPRO_CREDENTIALS }}
-      shell: bash
-      continue-on-error: true
-      run: |
-        curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/csp-x64-eng.msi --output csp-x64-eng.msi
-        start //wait msiexec //qn //i "csp-x64-eng.msi" REBOOT=R INSTALLCPCERT=1 KCLEVEL=1
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/csp-x64-eng.msi --output csp-x64-eng.msi
+          start //wait msiexec //qn //i "csp-x64-eng.msi" REBOOT=R INSTALLCPCERT=1 KCLEVEL=1
+        elif [ "$RUNNER_OS" == "Linux" ]; then
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/linux-amd64_deb.tgz --output linux-amd64_deb.tgz
+          tar -xvf linux-amd64_deb.tgz
+          cd linux-amd64_deb
+          sudo ./install.sh kc1
+        else
+          exit 1
+        fi
 
     - name: TestMsspiClient
       run: |
