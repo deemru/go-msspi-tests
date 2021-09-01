@@ -1,4 +1,4 @@
-name: test
+name: tests
 on: [push]
 
 env:
@@ -11,12 +11,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
+        - os: windows-latest
+          platform: win64
+        - os: ubuntu-latest
+          platform: linux
         - os: macos-latest
           platform: darwin
-        - os: macos-latest
-          platform: mas
 
-    name: TestMsspiClient
+    name: TLS-Client
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-go@v2
@@ -60,6 +62,6 @@ jobs:
           exit 1
         fi
 
-    - name: TestMsspiClient
+    - name: TLS-Client
       run: |
         go test -run MsspiClient
