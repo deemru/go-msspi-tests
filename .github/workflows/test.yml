@@ -11,10 +11,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - os: windows-latest
-          platform: win64
-        - os: ubuntu-latest
-          platform: linux
+        - os: macos-latest
+          platform: darwin
 
     name: TestMsspiClient
     steps:
@@ -42,6 +40,7 @@ jobs:
         CPRO_CREDENTIALS: ${{ secrets.CPRO_CREDENTIALS }}
       shell: bash
       run: |
+        cd $RUNNER_TEMP
         if [ "$RUNNER_OS" == "Windows" ]; then
           curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/csp-x64-eng.msi --output csp-x64-eng.msi
           start //wait msiexec //qn //i "csp-x64-eng.msi" REBOOT=R INSTALLCPCERT=1 KCLEVEL=1
@@ -50,6 +49,11 @@ jobs:
           tar -xvf linux-amd64_deb.tgz
           cd linux-amd64_deb
           sudo ./install.sh kc1
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/ru.cryptopro.csp.dmg --output ru.cryptopro.csp.dmg
+          hdiutil attach ru.cryptopro.csp.dmg
+          cd /Volumes/ru.cryptopro.csp*
+          sudo installer -pkg ru.cryptopro.csp*.pkg -target /
         else
           exit 1
         fi
