@@ -50,10 +50,10 @@ jobs:
       if: matrix.os == 'windows-latest'
       env:
         CPRO_CREDENTIALS: ${{ secrets.CPRO_CREDENTIALS }}
-      shell: bash
+      shell: cmd
       continue-on-error: true
       run: |
-        curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/csp-x64-eng.msi --output csp-x64-eng.msi
+        curl https://%CPRO_CREDENTIALS%@update.cryptopro.ru/support/stunnel/dist/csp50r2/csp-x64-eng.msi --output csp-x64-eng.msi
         msiexec /qn /i "csp-x64-eng.msi" REBOOT=R INSTALLCPCERT=1 KCLEVEL=1
 
     - name: TestMsspiClient
