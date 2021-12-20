@@ -2,7 +2,7 @@ name: tests
 on: [push]
 
 env:
-  golang-version: '1.16.5'
+  golang-version: '1.16.12'
 
 jobs:
   test:
