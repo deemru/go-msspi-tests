@@ -1,8 +1,9 @@
 name: tests
-on: [push]
+on: push
 
 env:
   golang-version: '1.16.12'
+  gomsspi-version: 'v1.16.12-msspi'
 
 jobs:
   test:
@@ -26,10 +27,12 @@ jobs:
         go-version: ${{ env.golang-version }}
 
     - name: Setup CryptoPro/go
+      env:
+        PROJECTTAG: ${{ env.gomsspi-version }}
       shell: bash
       run: |
         cd $RUNNER_TEMP
-        git clone --depth 1 --branch go1.16.12-msspi https://github.com/CryptoPro/go.git
+        git -c advice.detachedHead=false clone --depth 1 --branch ${PROJECTTAG} https://github.com/CryptoPro/go.git
         cd go
         git submodule update --init --recursive --depth 1
         cd src/go-msspi/msspi/build_linux
