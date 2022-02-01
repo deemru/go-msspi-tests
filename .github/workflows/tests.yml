@@ -2,8 +2,8 @@ name: tests
 on: push
 
 env:
-  golang-version: '1.16.12'
-  gomsspi-version: 'v1.16.12-msspi'
+  golang-version: '1.16.13'
+  go-cpro-version: 'v1.16.13-msspi'
 
 jobs:
   test:
@@ -28,7 +28,7 @@ jobs:
 
     - name: Setup CryptoPro/go
       env:
-        PROJECTTAG: ${{ env.gomsspi-version }}
+        PROJECTTAG: ${{ env.go-cpro-version }}
       shell: bash
       run: |
         cd $RUNNER_TEMP
