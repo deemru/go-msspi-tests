@@ -53,6 +53,7 @@ jobs:
           start //wait msiexec //qn //i "csp-x64-eng.msi" REBOOT=R KCLEVEL=1
           net stop cproctrl
           net start cproctrl
+          "C:\Program Files\Crypto Pro\CSP\csptest.exe" -tlsc -nocheck -nosave -verbose -server gost.cryptopro.ru -file index.php
         elif [ "$RUNNER_OS" == "Linux" ]; then
           curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3/linux-amd64_deb.tgz --output linux-amd64_deb.tgz
           tar -xvf linux-amd64_deb.tgz
