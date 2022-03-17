@@ -2,8 +2,8 @@ name: tests
 on: push
 
 env:
-  golang-version: '1.16.13'
-  go-cpro-version: 'v1.16.13-msspi'
+  golang-version: '1.16.15'
+  go-cpro-version: 'v1.16.15-msspi'
 
 jobs:
   test:
