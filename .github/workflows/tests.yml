@@ -2,8 +2,8 @@ name: tests
 on: push
 
 env:
-  golang-version: '1.16.13'
-  go-cpro-version: 'v1.16.13-msspi'
+  golang-version: '1.16.15'
+  go-cpro-version: 'v1.16.15-msspi'
 
 jobs:
   test:
@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - os: windows-latest
+        - os: windows-2019
           platform: win64
         - os: ubuntu-latest
           platform: linux
@@ -50,7 +50,7 @@ jobs:
         cd $RUNNER_TEMP
         if [ "$RUNNER_OS" == "Windows" ]; then
           curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3/csp-x64-eng.msi --output csp-x64-eng.msi
-          start //wait msiexec //qn //i "csp-x64-eng.msi" REBOOT=R INSTALLCPCERT=1 KCLEVEL=1
+          start //wait msiexec //qn //i "csp-x64-eng.msi" REBOOT=R KCLEVEL=1
         elif [ "$RUNNER_OS" == "Linux" ]; then
           curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3/linux-amd64_deb.tgz --output linux-amd64_deb.tgz
           tar -xvf linux-amd64_deb.tgz
