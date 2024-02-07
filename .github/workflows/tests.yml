@@ -40,7 +40,7 @@ jobs:
         if [ "$RUNNER_OS" != "Windows" ]; then
           make -B static-capix
         fi
-        cp -rf $RUNNER_TEMP/go/src $GOROOT
+        cp -rf $RUNNER_TEMP/go/src $GOPATH
 
     - name: Install CryptoPro CSP
       env:
