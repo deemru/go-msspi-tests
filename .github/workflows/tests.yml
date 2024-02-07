@@ -26,12 +26,6 @@ jobs:
       with:
         go-version: ${{ env.golang-version }}
 
-    - name: Print GOROOT
-      shell: bash
-      run: |
-        go env
-        echo "GOROOT=${{ env.GOROOT }}"
-
     - name: Setup CryptoPro/go
       env:
         PROJECTTAG: ${{ env.go-cpro-version }}
@@ -48,7 +42,7 @@ jobs:
         fi
         go env
         env
-        cp -rf $RUNNER_TEMP/go/src ${{ env.GOROOT }}
+        cp -rf $RUNNER_TEMP/go/src $(go env GOROOT)
 
     - name: Install CryptoPro CSP
       env:
