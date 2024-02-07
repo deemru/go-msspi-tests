@@ -47,6 +47,7 @@ jobs:
           make -B static-capix
         fi
         go env
+        env
         cp -rf $RUNNER_TEMP/go/src ${{ env.GOROOT }}
 
     - name: Install CryptoPro CSP
