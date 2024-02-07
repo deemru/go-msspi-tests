@@ -25,6 +25,9 @@ jobs:
     - uses: actions/setup-go@v5
       with:
         go-version: ${{ env.golang-version }}
+      shell: bash
+      run: |
+        echo "GOROOT=${GOROOT}"
 
     - name: Setup CryptoPro/go
       env:
@@ -40,7 +43,7 @@ jobs:
         if [ "$RUNNER_OS" != "Windows" ]; then
           make -B static-capix
         fi
-        cp -rf $RUNNER_TEMP/go/src ${{ env.GOPATH }}
+        cp -rf $RUNNER_TEMP/go/src ${{ env.GOROOT }}
 
     - name: Install CryptoPro CSP
       env:
