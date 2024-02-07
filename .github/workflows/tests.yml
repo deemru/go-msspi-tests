@@ -30,7 +30,7 @@ jobs:
       shell: bash
       run: |
         go env
-        echo "GOROOT=${GOROOT}"
+        echo "GOROOT=${{ env.GOROOT }}"
 
     - name: Setup CryptoPro/go
       env:
@@ -47,7 +47,7 @@ jobs:
           make -B static-capix
         fi
         go env
-        cp -rf $RUNNER_TEMP/go/src $GOROOT
+        cp -rf $RUNNER_TEMP/go/src ${{ env.GOROOT }}
 
     - name: Install CryptoPro CSP
       env:
