@@ -25,6 +25,8 @@ jobs:
     - uses: actions/setup-go@v5
       with:
         go-version: ${{ env.golang-version }}
+
+    - name: Print GOROOT
       shell: bash
       run: |
         echo "GOROOT=${GOROOT}"
