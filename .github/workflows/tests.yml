@@ -51,15 +51,15 @@ jobs:
       run: |
         cd $RUNNER_TEMP
         if [ "$RUNNER_OS" == "Windows" ]; then
-          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3/csp-x64-eng.msi --output csp-x64-eng.msi
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3_13000/csp-x64-eng.msi --output csp-x64-eng.msi
           start //wait msiexec //qn //i "csp-x64-eng.msi" REBOOT=R KCLEVEL=1
         elif [ "$RUNNER_OS" == "Linux" ]; then
-          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3/linux-amd64_deb.tgz --output linux-amd64_deb.tgz
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3_13000/linux-amd64_deb.tgz --output linux-amd64_deb.tgz
           tar -xvf linux-amd64_deb.tgz
           cd linux-amd64_deb
           sudo ./install.sh kc1
         elif [ "$RUNNER_OS" == "macOS" ]; then
-          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3/ru.cryptopro.csp.dmg --output ru.cryptopro.csp.dmg
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r3_13000/ru.cryptopro.csp.dmg --output ru.cryptopro.csp.dmg
           hdiutil attach ru.cryptopro.csp.dmg
           cd /Volumes/ru.cryptopro.csp*
           sudo installer -pkg ru.cryptopro.csp*.pkg -target /
