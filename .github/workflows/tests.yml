@@ -3,7 +3,7 @@ on: push
 
 env:
   golang-version: '1.22.6'
-  go-cpro-version: 'v1.22.6-msspi-2'
+  go-cpro-version: 'v1.22.6-msspi-3'
 
 jobs:
   test:
