@@ -15,8 +15,8 @@ jobs:
         - os: ubuntu-latest    # full matrix + MSSPI_EXTERNAL, with CSP certificates
           tests: true
           certs: true
-        - os: windows-2022     # MSSPI_EXTERNAL + no-cert subset (CSP-cert tests skip)
-          tests: true
+        - os: windows-2022     # build only — headless CSP doesn't activate GOST (needs a reboot)
+          tests: false
           certs: false
         - os: macos-14         # build only — proves the binding compiles on Apple Silicon
           tests: false
@@ -50,7 +50,7 @@ jobs:
         GOTOOLCHAIN: local
       shell: bash
       run: |
-        go test -tags=msspi -c -o "$RUNNER_TEMP/msspitests.test" .
+        go test -tags=msspi -c .
 
     - name: Install CryptoPro CSP
       if: ${{ matrix.tests }}

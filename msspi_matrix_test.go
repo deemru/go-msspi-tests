@@ -743,12 +743,22 @@ func TestExternalGOST(t *testing.T) {
 	}
 	const ms, me = `ssl_cipher</td><td class="wr"><b>`, "</b>"
 	s := string(body)
+	cipher := ""
 	if i := strings.Index(s, ms); i != -1 {
 		if j := strings.Index(s[i+len(ms):], me); j != -1 {
-			t.Logf("negotiated GOST cipher (server-reported): %s", s[i+len(ms):i+len(ms)+j])
+			cipher = s[i+len(ms) : i+len(ms)+j]
 		}
 	}
-	t.Logf("ConnectionState: version=0x%04x cipher=0x%04x", tc.ConnectionState().Version, tc.ConnectionState().CipherSuite)
+	t.Logf("server-reported cipher: %q; ConnectionState: version=0x%04x cipher=0x%04x",
+		cipher, tc.ConnectionState().Version, tc.ConnectionState().CipherSuite)
+	if cipher == "" {
+		t.Fatalf("could not read the server-reported cipher from the response")
+	}
+	// the msspi client must negotiate GOST with the GOST endpoint; a standard
+	// suite here means the CSP GOST provider wasn't actually used.
+	if !strings.Contains(strings.ToUpper(cipher), "GOST") {
+		t.Fatalf("expected a GOST cipher from the msspi client, got %q", cipher)
+	}
 }
 
 // TestExternalStandard connects to a public GOST-capable endpoint with the
